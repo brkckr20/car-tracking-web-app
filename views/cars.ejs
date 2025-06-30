@@ -1,0 +1,148 @@
+<%- include('../partials/top.ejs') %>
+    <%- include('../partials/sidebar.ejs') %>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <%- include('../partials/header.ejs') %>
+                    <div class="container-fluid">
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Araçlarım</h1>
+                            <a href="#" data-toggle="modal" data-target="#exampleModal"
+                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-plus fa-sm text-white-50"></i> Yeni Araç Ekle</a>
+                        </div>
+                        <div class="row">
+                            <% cars.forEach(car=> { %>
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div
+                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                        <%- car.marka %>
+                                                    </div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"> <%- car.plaka
+                                                            %>
+                                                    </div>
+                                                    <label class="mb-0 text-gray-800"> <%- car.yıl %>
+                                                    </label>
+                                                    <label for="">|</label>
+                                                    <label class="mb-0 text-gray-800"> <%- car.km %>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex w-100 justify-content-end">
+                                                <button data-toggle="modal" data-target="#exampleModal<%= car.id %>"
+                                                    href="/get-car/<%= car.id %>" style="font-size: 10px;"
+                                                    class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-1">
+                                                    <i class="fas fa-edit fa-sm text-white-50"></i>
+                                                    Düzenle</button>
+                                                <form action="/delete-car/<%= car.id %>" method="POST"
+                                                    style="display: inline;">
+                                                    <button style="font-size: 10px;" type="submit"
+                                                        class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
+                                                        onclick="return confirm('Bu aracı silmek istediğinize emin misiniz?')">
+                                                        <i class="fas fa-trash"></i> Sil
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="exampleModal<%= car.id %>" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Araç Güncelle || Araç ID
+                                                    :
+                                                    <b>
+                                                        <%= car.id %>
+                                                    </b>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/edit-car/<%= car.id %>" method="post">
+                                                    <div class="input-group">
+                                                        <input value="<%= car.marka %>" name="marka" type="text"
+                                                            class="form-control bg-light border-0 small"
+                                                            placeholder="Marka ve model" aria-label="Search"
+                                                            aria-describedby="basic-addon2">
+                                                    </div>
+                                                    <div class="input-group mt-2">
+                                                        <input value="<%= car.plaka %>" name="plaka" type="text"
+                                                            class="form-control bg-light border-0 small"
+                                                            placeholder="Araç plakası" aria-label="Search"
+                                                            aria-describedby="basic-addon2">
+                                                    </div>
+                                                    <div class="input-group mt-2">
+                                                        <input value="<%= car.yıl %>" name="yıl" type="text"
+                                                            class="form-control bg-light border-0 small"
+                                                            placeholder="Araç model yılı" aria-label="Search"
+                                                            aria-describedby="basic-addon2">
+                                                    </div>
+
+                                                    <div class="input-group mt-2">
+                                                        <input value="<%= car.km %>" name="km" type="text"
+                                                            class="form-control bg-light border-0 small"
+                                                            placeholder="Araç km'si" aria-label="Search"
+                                                            aria-describedby="basic-addon2">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-danger"
+                                                            data-dismiss="modal">İptal</button>
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-success">Kaydet</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Yeni Araç Ekle</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/add-car" method="post">
+                                        <div class="input-group">
+                                            <input name="marka" type="text" class="form-control bg-light border-0 small"
+                                                placeholder="Marka ve model" aria-label="Search"
+                                                aria-describedby="basic-addon2">
+                                        </div>
+                                        <div class="input-group mt-2">
+                                            <input name="plaka" type="text" class="form-control bg-light border-0 small"
+                                                placeholder="Araç plakası" aria-describedby="basic-addon2">
+                                        </div>
+                                        <div class="input-group mt-2">
+                                            <input name="yıl" type="text" class="form-control bg-light border-0 small"
+                                                placeholder="Araç model yılı" aria-describedby="basic-addon2">
+                                        </div>
+                                        <div class="input-group mt-2">
+                                            <input name="km" type="text" class="form-control bg-light border-0 small"
+                                                placeholder="Araç km'si" aria-describedby="basic-addon2">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                data-dismiss="modal">İptal</button>
+                                            <button type="submit" class="btn btn-sm btn-success">Kaydet</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <%- include('../partials/footer.ejs') %>
+                    </div>
