@@ -16,10 +16,10 @@ app.use(session({
 }))
 
 const db = mysql.createConnection({
-    host: 'mysql-aractakip.alwaysdata.net',
-    user: 'aractakip',
-    password: 'Q1q2w3e4r5t.',
-    database: 'aractakip_2025'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 db.connect((err) => {
@@ -56,19 +56,19 @@ LEFT JOIN
     Operations O ON P.islem_id = O.Id;`, []);
     db.query('SELECT * FROM Operations', (err, results) => {
         if (err) throw err;
-        res.render('index', { visitors: results, title: "Ana Sayfa", arac_sayisi: arac_sayisi[0][0].arac_sayisi, araclar: araclar[0], islem_turleri: islem_turleri[0], islemler: islemler[0] });
+        res.render('index', { visitors: results, title: "Ana Sayfa ⌛", arac_sayisi: arac_sayisi[0][0].arac_sayisi, araclar: araclar[0], islem_turleri: islem_turleri[0], islemler: islemler[0] });
     });
 });
 
 app.get("/cars", (req, res) => {
     db.query('SELECT * FROM Cars', (err, results) => {
         if (err) throw err;
-        res.render("cars", { title: "Araçlarım", cars: results/* , session: req.session  */ });
+        res.render("cars", { title: "Araçlarım ✨", cars: results/* , session: req.session  */ });
     });
 });
 
 app.post("/add-car", (req, res) => {
-    db.query("Insert into Cars (marka, plaka, yıl) values (?, ?, ?)", [req.body.marka, req.body.plaka, req.body.yıl], (err, result) => {
+    db.query("Insert into Cars (marka, plaka, yıl,km) values (?, ?, ?,?)", [req.body.marka, req.body.plaka, req.body.yıl, req.body.km], (err, result) => {
         if (err) throw err;
         console.log("Araç eklendi");
     });
@@ -86,7 +86,7 @@ app.post("/delete-car/:id", (req, res) => {
 app.get("/get-car/:id", (req, res) => {
     db.query("Select * from Cars where id = ?", [req.params.id], (err, result) => {
         if (err) throw err;
-        res.render("car", { title: "Araç Bilgileri", car: result[0] });
+        res.render("car", { title: "Araç Bilgileri 💢", car: result[0] });
     });
 });
 
@@ -116,7 +116,7 @@ app.post("/delete-operation/:id", (req, res) => {
 app.get("/operations", (req, res) => {
     db.query('SELECT * FROM Operations', (err, results) => {
         if (err) throw err;
-        res.render("operations", { title: "İşlem Türleri", operations: results });
+        res.render("operations", { title: "İşlem Türleri 🌐", operations: results });
     });
 });
 
