@@ -53,7 +53,8 @@ FROM
 LEFT JOIN 
     Cars C ON P.arac_id = C.id 
 LEFT JOIN 
-    Operations O ON P.islem_id = O.Id;`, []);
+    Operations O ON P.islem_id = O.Id
+WHERE P.bitti = 0;`, []);
     db.query('SELECT * FROM Operations', (err, results) => {
         if (err) throw err;
         res.render('index', { visitors: results, title: "Ana Sayfa ⌛", arac_sayisi: arac_sayisi[0][0].arac_sayisi, araclar: araclar[0], islem_turleri: islem_turleri[0], islemler: islemler[0] });
@@ -135,6 +136,18 @@ app.get("/delete-operation-card/:id", (req, res) => {
     });
     res.redirect("/operations");
 })
+
+app.post("/done-operation/:id", (req, res) => {
+    db.query("Update Process set bitti =? where id =?", [true, req.params.id], (err, result) => {
+        if (err) throw err;
+        console.log("İşlem güncellendi");
+    });
+    res.redirect("/");
+})
+
+app.get("/old-operations", (req, res) => {
+    res.render("old-operations", { title: "Geçmiş İşlemler 📅" });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server çalışıyor http://localhost:${PORT}`));

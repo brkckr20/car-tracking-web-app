@@ -1,51 +1,15 @@
 <%- include('../partials/top.ejs') %>
     <!-- sidebar -->
     <%- include('../partials/sidebar.ejs') %>
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
             <div id="content">
 
                 <%- include('../partials/header.ejs') %>
-
-                    <!-- Begin Page Content -->
                     <div class="container-fluid">
-
-                        <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Ana Sayfa</h1>
-                            <a href="#" data-toggle="modal" data-target="#exampleModal"
-                                class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-plus fa-sm text-white-50"></i> Yeni İşlem Ekle</a>
+                            <h1 class="h3 mb-0 text-gray-800">Yapılmış olan önceki işlemler - tamamlanma tarihi
+                                eklenecek</h1>
                         </div>
-
-                        <!-- Content Row -->
-                        <div class="row">
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                    Araç Sayısı</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                    <%= arac_sayisi %>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-car fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Content Row -->
 
                         <div class="row">
 
@@ -62,58 +26,20 @@
                                                     <tr>
                                                         <th>Marka - Plaka</th>
                                                         <th>İşlem Türü</th>
-                                                        <th>Yapılacak Tarih</th>
-                                                        <th>Kalan Gün</th>
-                                                        <th>Kalan KM</th>
+                                                        <th>Yapıldığı Tarih</th>
                                                         <th>İşlem</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <% for (let i=0; i < islemler.length; i++) { %>
-                                                        <tr>
-                                                            <td>
-                                                                <%= islemler[i].marka %> - <%= islemler[i].plaka %>
-                                                            </td>
-                                                            <td>
-                                                                <%= islemler[i].OperationName %>
-                                                            </td>
-                                                            <td>
-                                                                <%= islemler[i].yapilacak_tarih.toLocaleDateString('tr-TR')
-                                                                    %>
-                                                            </td>
-                                                            <td>
-                                                                <%= islemler[i].kalan_gun %>
-                                                            </td>
-                                                            <td>
-                                                                <%= islemler[i].kalan_km %>
-                                                            </td>
-                                                            <td class="d-flex">
-                                                                <form method="post" class="mr-1"
-                                                                    action="/delete-operation/<%= islemler[i].islem_id %>">
-                                                                    <button class="btn btn-sm btn-danger">Sil</button>
-                                                                </form>
-                                                                <form method="post"
-                                                                    action="/done-operation/<%= islemler[i].islem_id %>">
-                                                                    <button class="btn btn-sm btn-info">Bitti</button>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                                                        <% } %>
+
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                            <!-- /.container-fluid -->
-
                         </div>
-
-
                     </div>
-                    <!-- /.container-fluid -->
-
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -130,22 +56,13 @@
                                 <div class="mb-2">
                                     <select name="arac_id" class="form-control bg-light border-0 small">
                                         <option value="">Marka Seçiniz</option>
-                                        <% for (let i=0; i < araclar.length; i++) { %>
-                                            <option value="<%= araclar[i].id %>">
-                                                <%= araclar[i].marka %> - <%= araclar[i].plaka %>
-                                            </option>
-                                            <% } %>
+
                                     </select>
                                 </div>
                                 <div class="mb-2">
                                     <select onchange="handleSelectOperation(this)" name="islem_id"
                                         class="form-control bg-light border-0 small">
                                         <option value="">İşlem Türü Seçiniz</option>
-                                        <% for (let i=0; i < islem_turleri.length; i++) { %>
-                                            <option value="<%= islem_turleri[i].Id %>">
-                                                <%= islem_turleri[i].OperationName %>
-                                            </option>
-                                            <% } %>
                                     </select>
                                 </div>
                                 <div class="mt-2"
